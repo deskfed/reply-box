@@ -53,7 +53,6 @@
           getText: '@'
         },
         link: function (scope, element, attrs, ctrl) {
-          $parse.log('quillEditor');
           return ctrl.init(element);
         }
       };
