@@ -77,3 +77,44 @@
     };
   });
 }.call(this));
+(function() {
+  var Placeholder;
+
+  Placeholder = (function() {
+    function Placeholder(quill, options) {
+      var _this = this;
+      this.quill = quill;
+      this.options = options;
+      this.container = this.quill.addContainer('placeholder-container', true);
+      this.container.innerHTML = this.options.content;
+      this.quill.addStyles({
+        ".placeholder-container": {
+          opacity: 0.5,
+          position: 'absolute'
+        },
+        ".placeholder-container.hide": {
+          display: 'none'
+        }
+      });
+      this.quill.on('text-change', function() {
+        if (_this.quill.getText().trim().length) {
+          return _this.container.classList.add('hide');
+        } else {
+          return _this.container.classList.remove('hide');
+        }
+      });
+      this;
+    }
+
+    return Placeholder;
+
+  })();
+
+  Quill.registerModule('placeholder', Placeholder);
+
+}).call(this);
+
+(function() {
+
+
+}).call(this);

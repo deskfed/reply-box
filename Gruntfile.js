@@ -367,7 +367,7 @@ module.exports = function (grunt) {
       dist: {
         files: {
           '<%= yeoman.dist %>/ds-quill.js': [
-            '.tmp/src/*.js'
+            '.tmp/src/**/*.js'
           ]
         }
       }
