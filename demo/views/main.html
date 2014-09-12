@@ -4,7 +4,7 @@
 
 
 <quill-container class="quill-editor">
-  <quill-toolbar config="{container: $element}">
+  <quill-toolbar>
     <!-- Font and Font Size -->
     <span class="ql-format-group">
       <select title="Font" class="ql-font">
@@ -39,7 +39,7 @@
       <span class="ql-format-separator"></span>
     </span>
   </quill-toolbar>
-  <quill-editor on-text-change="main.contentUpdated($delta, $html)" get-text="main.poller">
+  <quill-editor quill-placeholder="{{'Enter your reply here...'}}">
 
   </quill-editor>
 </quill-container>

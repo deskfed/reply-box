@@ -17,7 +17,7 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
       if modules.length
         _addModule.apply(@, mod) for mod in modules
         modules.length = 0
-      editor
+      return
 
     @addModule = (name, config) ->
       if ctrl.$editor
@@ -29,6 +29,7 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
 
 .directive 'quillEditor', ($parse) ->
   restrict: 'E'
+  priority: 0
   template: '<div></div>'
   replace: true
   require: '^quillContainer'
@@ -36,19 +37,8 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
     textChange: '&onTextChange'
     getText: '@'
   link: (scope, element, attrs, ctrl) ->
-    editor = ctrl.init(element)
-
-    editor.on 'text-change', (delta, source) ->
-      scope.textChange $delta: delta, $html: editor.getHTML()
-      scope
-      console.log delta, source
-
-    # Pass the contents back up on request
-    getTextGetter = $parse(scope.getText)
-    getTextSetter = getTextGetter.assign
-
-    debugger
-
+    console.log 'quillEditor'
+    ctrl.init(element)
 
 .directive 'quillToolbar', ->
    restrict: 'E'
@@ -58,3 +48,8 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
    require: '^quillContainer'
    link: (scope, element, attrs, ctrl) ->
      ctrl.addModule 'toolbar', container: element.get(0)
+
+.directive 'quillPlaceholder', ->
+  require: '^quillContainer'
+  link: (scope, element, attrs, ctrl) ->
+    ctrl.addModule 'placeholder', content: attrs.quillPlaceholder
