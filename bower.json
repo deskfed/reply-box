@@ -2,13 +2,13 @@
   "name": "reply-box",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.6",
-    "sass-bootstrap": "~3.0.2",
-    "angular-resource": "1.2.6",
-    "ui-router": "~0.2.10",
     "quill": "~0.17.4"
   },
   "devDependencies": {
+    "sass-bootstrap": "~3.0.2",
+    "ui-router": "~0.2.10",
+    "angular": "1.2.6",
+    "angular-resource": "1.2.6",
     "angular-mocks": "1.2.6",
     "angular-scenario": "1.2.6"
   }
