@@ -3,6 +3,7 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
   template: '<div ng-transclude></div>'
   replace: true
   transclude: true
+  scope: {}
   controller: ($scope, $element, $attrs) ->
 
     ctrl = @
@@ -16,6 +17,7 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
       if modules.length
         _addModule.apply(@, mod) for mod in modules
         modules.length = 0
+      editor
 
     @addModule = (name, config) ->
       if ctrl.$editor
@@ -25,45 +27,28 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
       return
     return @
 
+.directive 'quillEditor', ($parse) ->
+  restrict: 'E'
+  template: '<div></div>'
+  replace: true
+  require: '^quillContainer'
+  scope:
+    textChange: '&onTextChange'
+    getText: '@'
+  link: (scope, element, attrs, ctrl) ->
+    editor = ctrl.init(element)
 
+    editor.on 'text-change', (delta, source) ->
+      scope.textChange $delta: delta, $html: editor.getHTML()
+      scope
+      console.log delta, source
 
-  # link: (scope, element, attrs) ->
-  #   el0 = element.get(0)
-  #     # Initialize editor with custom theme and modules
-  #   fullEditor = new Quill(el0,
-  #     modules:
-  #       # toolbar:
-  #       #
-  #
-  #       # authorship:
-  #       #   authorId: "galadriel"
-  #       #   enabled: true
-  #
-  #       # "multi-cursor": true
-  #       # toolbar:
-  #       #   container: el0
-  #
-  #       "link-tooltip": true
-  #
-  #     theme: "snow"
-  #   )
+    # Pass the contents back up on request
+    getTextGetter = $parse(scope.getText)
+    getTextSetter = getTextGetter.assign
 
-    # Add basic editor's author
-    # authorship = fullEditor.getModule("authorship")
-    # authorship.addAuthor "gandalf", "rgba(255,153,51,0.4)"
+    debugger
 
-    # Add a cursor to represent basic editor's cursor
-    # cursorManager = fullEditor.getModule("multi-cursor")
-    # cursorManager.setCursor "gandalf", fullEditor.getLength() - 1, "Gandalf", "rgba(255,153,51,0.9)"
-
-
-.directive 'quillEditor', ->
-   restrict: 'E'
-   template: '<div></div>'
-   replace: true
-   require: '^quillContainer'
-   link: (scope, element, attrs, ctrl) ->
-     ctrl.init(element)
 
 .directive 'quillToolbar', ->
    restrict: 'E'

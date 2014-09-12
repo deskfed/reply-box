@@ -39,7 +39,7 @@
       <span class="ql-format-separator"></span>
     </span>
   </quill-toolbar>
-  <quill-editor on-content-update="updateStuff(content)" >
+  <quill-editor on-text-change="main.contentUpdated($delta, $html)" get-text="main.poller">
 
   </quill-editor>
 </quill-container>

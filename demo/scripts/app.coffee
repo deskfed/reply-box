@@ -10,3 +10,4 @@ angular.module('replyBoxApp', [
         url: ''
         templateUrl: 'views/main.html'
         controller: 'MainCtrl'
+        controllerAs: 'main'
