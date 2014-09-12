@@ -5,25 +5,26 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
   transclude: true
   controller: ($scope, $element, $attrs) ->
 
-    editor = null
+    ctrl = @
     modules = []
 
     _addModule = (name, config) ->
-      editor.addModule name, config
+      ctrl.$editor.addModule name, config
 
     @init = (editorEl) ->
-      editor = new Quill(editorEl.get(0), theme: "snow")
+      ctrl.$editor = new Quill(editorEl.get(0), theme: "snow")
       if modules.length
         _addModule.apply(@, mod) for mod in modules
         modules.length = 0
 
     @addModule = (name, config) ->
-      if editor
+      if ctrl.$editor
         _addModule.apply(@, arguments)
       else
         modules.push arguments
       return
     return @
+
 
 
   # link: (scope, element, attrs) ->
