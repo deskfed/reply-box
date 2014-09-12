@@ -153,13 +153,6 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.demo %>/scripts',
-          src: '{,*/}*.coffee',
-          dest: '.tmp/scripts',
-          ext: '.js'
-        },
-        {
-          expand: true,
           cwd: '<%= yeoman.src %>/',
           src: '{,*/}*.coffee',
           dest: '.tmp/src',
@@ -284,9 +277,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/concat/scripts',
+          cwd: '.tmp/src',
           src: '*.js',
-          dest: '.tmp/concat/scripts'
+          dest: '.tmp/src/'
         }]
       }
     },
@@ -361,18 +354,24 @@ module.exports = function (grunt) {
     //     }
     //   }
     // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    uglify: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/ds-quill.min.js': [
+            '<%= yeoman.dist %>/ds-quill.js'
+          ]
+        }
+      }
+    },
+    concat: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/ds-quill.js': [
+            '.tmp/src/*.js'
+          ]
+        }
+      }
+    },
 
     // Test settings
     karma: {
@@ -410,6 +409,14 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma'
+  ]);
+
+  grunt.registerTask('dist', [
+    'clean:dist',
+    'coffee:dist',
+    'ngmin:dist',
+    'concat:dist',
+    'uglify:dist'
   ]);
 
   grunt.registerTask('build', [
