@@ -2,6 +2,11 @@
   "name": "reply-box",
   "version": "0.0.0",
   "dependencies": {
+    "angular": "1.2.6",
+    "lodash": "~2.4.1",
+    "sass-bootstrap": "~3.0.2",
+    "angular-resource": "1.2.6",
+    "ui-router": "~0.2.10",
     "quill": "~0.17.4"
   },
   "devDependencies": {

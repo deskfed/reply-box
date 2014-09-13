@@ -37,7 +37,6 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
     textChange: '&onTextChange'
     getText: '@'
   link: (scope, element, attrs, ctrl) ->
-    # console.log 'quillEditor'
     ctrl.init(element)
 
 .directive 'quillToolbar', ->
@@ -93,3 +92,9 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
     """
   }
 
+.directive 'quillPlugin', ($parse) ->
+  restrict: 'E'
+  require: '^quillContainer'
+  template: ''
+  link: (scope, element, attrs, ctrl) ->
+    ctrl.addModule attrs.name, $parse(attrs.config)(scope)
