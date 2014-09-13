@@ -93,7 +93,7 @@ angular.module('ds.quill', []).directive 'quillContainer', ->
   }
 
 .directive 'quillPlugin', ($parse) ->
-  restrict: 'E'
+  restrict: 'CE'
   require: '^quillContainer'
   template: ''
   link: (scope, element, attrs, ctrl) ->
