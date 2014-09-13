@@ -85,8 +85,82 @@
       }
       return _results;
     }
+  ]).directive('quillPlugin', [
+    '$parse',
+    function ($parse) {
+      return {
+        restrict: 'CE',
+        require: '^quillContainer',
+        template: '',
+        link: function (scope, element, attrs, ctrl) {
+          return ctrl.addModule(attrs.name, $parse(attrs.config)(scope));
+        }
+      };
+    }
   ]);
 }.call(this));
+(function() {
+  var InsertLookup;
+
+  InsertLookup = (function() {
+    var getInsertKey;
+
+    getInsertKey = function(input, triggerChar, position) {
+      var triggerCharIndex;
+      if (position) {
+        input = input.slice(0, position);
+      }
+      triggerCharIndex = (input || '').lastIndexOf(triggerChar);
+      if (triggerCharIndex === -1) {
+        return void 0;
+      } else {
+        return input.slice(triggerCharIndex + triggerChar.length, position);
+      }
+    };
+
+    function InsertLookup(quill, options) {
+      var getCursorPosition, _base,
+        _this = this;
+      this.quill = quill;
+      this.options = options;
+      if ((_base = this.options).triggerChar == null) {
+        _base.triggerChar = '##';
+      }
+      getCursorPosition = function() {
+        var rects, ret, sel, selection, selrg;
+        ret = {};
+        selection = _this.quill.getSelection();
+        if (selection.start === selection.end) {
+          if ((sel = _this.quill.editor.root.ownerDocument.getSelection()) && sel.rangeCount > 0) {
+            if ((selrg = sel.getRangeAt(0))) {
+              if ((rects = selrg.getClientRects()).length > 0) {
+                ret = rects[0];
+              }
+            }
+          }
+          ret.index = selection.start;
+        }
+        return ret;
+      };
+      if (this.options.callback) {
+        this.quill.on('text-change', function(diff, direction) {
+          var cursorPosition, key;
+          cursorPosition = getCursorPosition();
+          key = getInsertKey(_this.quill.getText(), _this.options.triggerChar, cursorPosition.index);
+          return _this.options.callback(key, cursorPosition);
+        });
+      }
+      this;
+    }
+
+    return InsertLookup;
+
+  })();
+
+  Quill.registerModule('insertLookup', InsertLookup);
+
+}).call(this);
+
 (function() {
   var Placeholder;
 
